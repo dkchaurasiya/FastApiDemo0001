@@ -1,1 +1,3 @@
-fastapi run main.py
+#!/bin/bash
+
+gunicorn -k uvicorn.workers.UvicornWorker main:app --bind=0.0.0.0:${PORT:-8000}
