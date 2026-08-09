@@ -5,17 +5,22 @@ on:
     branches:
       - main
 
-jobs:
+  pull_request:
+    branches:
+      - main
 
+jobs:
   test:
 
     runs-on: ubuntu-latest
 
     steps:
 
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
@@ -24,7 +29,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Tests
+      - name: Run Pytest
         run: |
           pytest -v
 
@@ -32,13 +37,17 @@ jobs:
 
     needs: test
 
+    if: github.ref == 'refs/heads/main'
+
     runs-on: ubuntu-latest
 
     steps:
 
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
@@ -47,7 +56,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Deploy
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: myfirstfastapi
