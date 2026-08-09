@@ -1,11 +1,13 @@
 from fastapi import FastAPI
+from app.database import Base,engine
+from app.routes import router
 
-app = FastAPI()
+Base.metadata.create_all(bind=engine)
+
+app=FastAPI()
+
+app.include_router(router)
 
 @app.get("/")
-def read_root():
-    return {"Hello": " Working FastAPI on Azure Web App!"}
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str | None = None):
-    return {"item_id": item_id, "q": q}
+def home():
+    return {"message":"FastAPI Azure PostgreSQL CRUD"}

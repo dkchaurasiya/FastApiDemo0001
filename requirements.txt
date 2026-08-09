@@ -1,2 +1,5 @@
 fastapi[standard]==0.116.1
 gunicorn==23.0.0
+sqlalchemy
+psycopg2-binary
+python-dotenv
